@@ -1,18 +1,20 @@
 version: '2'
 
 volumes:
-  craftcms-data:
+  craftcms-data_sync:
+    external: true
   postgresql-data:
   craftcms-logs:
+  redis-data:
 
 services:
     web:
       image: wyveo/craftcms-docker:latest
       ports:
-        - 80:80
+        - 3080:80
       volumes:
         - craftcms-logs:/var/log
-        - craftcms-data:/usr/share/nginx
+        - craftcms-data_sync:/usr/share/nginx
       links:
         - postgres
         - redis
@@ -50,4 +52,4 @@ services:
     redis:
       image: redis:5.0.6-alpine
       volumes:
-        - /data:/data
+        - redis-data:/data
